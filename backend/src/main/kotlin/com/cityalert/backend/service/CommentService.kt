@@ -1,0 +1,46 @@
+package com.cityalert.backend.service
+
+import com.cityalert.backend.dto.comment.CommentCreateRequest
+import com.cityalert.backend.dto.comment.CommentResponse
+import com.cityalert.backend.exception.ForbiddenException
+import com.cityalert.backend.model.Comment
+import com.cityalert.backend.model.RoleName
+import com.cityalert.backend.model.User
+import com.cityalert.backend.repository.CommentRepository
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
+
+@Service
+class CommentService(
+    private val commentRepository: CommentRepository,
+    private val ticketService: TicketService,
+    private val dtoMapper: DtoMapper,
+) {
+
+    fun getByTicket(ticketId: UUID, currentUser: User): List<CommentResponse> {
+        ticketService.assertTicketAccess(ticketId, currentUser)
+        return commentRepository.findAllByTicketIdOrderByCreatedAtAsc(ticketId).map(dtoMapper::toCommentResponse)
+    }
+
+    @Transactional
+    fun create(ticketId: UUID, request: CommentCreateRequest, currentUser: User): CommentResponse {
+        val ticket = ticketService.getEntity(ticketId)
+        val isPrivileged = currentUser.roles.any { it.name == RoleName.EMPLOYEE || it.name == RoleName.ADMIN }
+        val isReporter = ticket.reporter.id == currentUser.id
+
+        if (!isPrivileged && !isReporter) {
+            throw ForbiddenException("You are not allowed to comment on this ticket")
+        }
+
+        val savedComment = commentRepository.save(
+            Comment(
+                message = request.message.trim(),
+                ticket = ticket,
+                author = currentUser,
+            ),
+        )
+
+        return dtoMapper.toCommentResponse(savedComment)
+    }
+}

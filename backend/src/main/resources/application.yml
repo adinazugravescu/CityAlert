@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: cityalert-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/cityalert}
+    username: ${DB_USERNAME:cityalert}
+    password: ${DB_PASSWORD:cityalert}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  mail:
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USERNAME:change-me}
+    password: ${MAIL_PASSWORD:change-me}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-me-change-me-change-me-change-me-change-me}
+    issuer: cityalert-backend
+    access-token-expiration-minutes: 180
+  admin:
+    email: ${APP_ADMIN_EMAIL:admin@cityalert.local}
+    password: ${APP_ADMIN_PASSWORD:Admin123!}
+  mail:
+    from: ${MAIL_FROM:no-reply@cityalert.local}

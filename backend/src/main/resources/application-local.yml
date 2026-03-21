@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cityalert
+    username: cityalert
+    password: cityalert
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: change-me
+    password: change-me
+
+app:
+  jwt:
+    secret: aceasta-este-o-cheie-foarte-lunga-pentru-jwt-12345
+  admin:
+    email: admin@cityalert.local
+    password: Admin123!
+  mail:
+    from: no-reply@cityalert.local
