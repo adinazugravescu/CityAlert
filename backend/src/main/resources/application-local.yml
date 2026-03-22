@@ -6,8 +6,8 @@ spring:
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 2525
-    username: change-me
-    password: change-me
+    username: abebff5dd5532d
+    password: 3291616ffd33be
 
 app:
   jwt:

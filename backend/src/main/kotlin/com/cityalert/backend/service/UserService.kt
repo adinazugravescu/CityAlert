@@ -3,7 +3,9 @@ package com.cityalert.backend.service
 import com.cityalert.backend.dto.user.UserResponse
 import com.cityalert.backend.dto.user.UserRolesUpdateRequest
 import com.cityalert.backend.exception.BadRequestException
+import com.cityalert.backend.exception.ForbiddenException
 import com.cityalert.backend.model.RoleName
+import com.cityalert.backend.model.User
 import com.cityalert.backend.repository.RoleRepository
 import com.cityalert.backend.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -37,5 +39,16 @@ class UserService(
 
         user.roles = roles
         return dtoMapper.toUserResponse(userRepository.save(user))
+    }
+
+    @Transactional
+    fun deactivate(id: UUID, currentUser: User) {
+        if (currentUser.id == id) {
+            throw ForbiddenException("You cannot deactivate your own account")
+        }
+
+        val user = appUserDetailsService.loadDomainUserById(id)
+        user.active = false
+        userRepository.save(user)
     }
 }
