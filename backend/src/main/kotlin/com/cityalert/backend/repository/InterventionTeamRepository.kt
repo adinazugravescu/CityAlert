@@ -9,9 +9,9 @@ import java.util.UUID
 interface InterventionTeamRepository : JpaRepository<InterventionTeam, UUID> {
     fun existsByNameIgnoreCase(name: String): Boolean
 
-    @EntityGraph(attributePaths = ["members"])
+    @EntityGraph(attributePaths = ["members", "members.roles"])
     override fun findAll(): List<InterventionTeam>
 
-    @EntityGraph(attributePaths = ["members"])
+    @EntityGraph(attributePaths = ["members", "members.roles"])
     override fun findById(id: UUID): Optional<InterventionTeam>
 }

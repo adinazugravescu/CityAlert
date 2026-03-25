@@ -8,6 +8,9 @@ import java.util.UUID
 
 interface UserRepository : JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = ["roles"])
+    override fun findAll(): List<User>
+
+    @EntityGraph(attributePaths = ["roles"])
     fun findByEmail(email: String): User?
 
     @EntityGraph(attributePaths = ["roles"])

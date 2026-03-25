@@ -2,12 +2,14 @@ package com.cityalert.backend.service
 
 import com.cityalert.backend.dto.comment.CommentResponse
 import com.cityalert.backend.dto.department.DepartmentResponse
+import com.cityalert.backend.dto.feedback.FeedbackResponse
 import com.cityalert.backend.dto.team.InterventionTeamResponse
 import com.cityalert.backend.dto.ticket.TicketDetailsResponse
 import com.cityalert.backend.dto.ticket.TicketResponse
 import com.cityalert.backend.dto.user.UserResponse
 import com.cityalert.backend.model.Comment
 import com.cityalert.backend.model.Department
+import com.cityalert.backend.model.Feedback
 import com.cityalert.backend.model.InterventionTeam
 import com.cityalert.backend.model.Ticket
 import com.cityalert.backend.model.TicketDetails
@@ -49,6 +51,19 @@ class DtoMapper {
             authorId = requireNotNull(comment.author.id),
             authorName = comment.author.fullName,
             createdAt = comment.createdAt,
+        )
+
+    fun toFeedbackResponse(feedback: Feedback): FeedbackResponse =
+        FeedbackResponse(
+            id = requireNotNull(feedback.id),
+            category = feedback.category,
+            experience = feedback.experience,
+            contactBack = feedback.contactBack,
+            message = feedback.message,
+            userId = requireNotNull(feedback.user.id),
+            userName = feedback.user.fullName,
+            userEmail = feedback.user.email(),
+            createdAt = feedback.createdAt,
         )
 
     fun toTicketDetailsResponse(details: TicketDetails): TicketDetailsResponse =

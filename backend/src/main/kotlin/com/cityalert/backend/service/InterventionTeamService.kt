@@ -18,11 +18,13 @@ class InterventionTeamService(
     private val dtoMapper: DtoMapper,
 ) {
 
+    @Transactional(readOnly = true)
     fun getAll(): List<InterventionTeamResponse> =
         teamRepository.findAll()
             .sortedBy { it.name.lowercase() }
             .map(dtoMapper::toTeamResponse)
 
+    @Transactional(readOnly = true)
     fun getById(id: UUID): InterventionTeamResponse = dtoMapper.toTeamResponse(getEntity(id))
 
     @Transactional
@@ -37,7 +39,8 @@ class InterventionTeamService(
             members = loadMembers(request.memberIds),
         )
 
-        return dtoMapper.toTeamResponse(teamRepository.save(team))
+        val saved = teamRepository.save(team)
+        return dtoMapper.toTeamResponse(getEntity(requireNotNull(saved.id)))
     }
 
     @Transactional
@@ -54,7 +57,8 @@ class InterventionTeamService(
         team.name = newName
         team.contactEmail = request.contactEmail?.trim()
         team.members = loadMembers(request.memberIds)
-        return dtoMapper.toTeamResponse(teamRepository.save(team))
+        val saved = teamRepository.save(team)
+        return dtoMapper.toTeamResponse(getEntity(requireNotNull(saved.id)))
     }
 
     @Transactional
