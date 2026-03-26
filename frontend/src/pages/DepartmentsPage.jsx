@@ -102,28 +102,30 @@ export default function DepartmentsPage() {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Actions</th>
+                  <th style={{ verticalAlign: 'middle' }}>Name</th>
+                  <th style={{ verticalAlign: 'middle' }}>Description</th>
+                  <th style={{ verticalAlign: 'middle' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedDepartments.map((department) => (
                   <tr key={department.id} className="table-row">
-                    <td>
+                    <td style={{ verticalAlign: 'middle' }}>
                       <strong>{department.name}</strong>
                     </td>
-                    <td>{department.description || "-"}</td>
-                    <td className="actions-cell">
-                      <button
-                        className="secondary-button"
-                        onClick={() => setModalState({ open: true, department })}
-                      >
-                        Edit
-                      </button>
-                      <button className="danger-button" onClick={() => setDeleteTarget(department)}>
-                        Delete
-                      </button>
+                    <td style={{ verticalAlign: 'middle' }}>{department.description || "-"}</td>
+                    <td className="actions-cell" style={{ verticalAlign: 'middle', display: 'table-cell' }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <button
+                          className="secondary-button"
+                          onClick={() => setModalState({ open: true, department })}
+                        >
+                          Edit
+                        </button>
+                        <button className="danger-button" onClick={() => setDeleteTarget(department)}>
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -152,54 +152,56 @@ export default function TicketsPage() {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Status</th>
-                  <th>Reporter</th>
-                  <th>Department</th>
-                  <th>Assigned team</th>
-                  <th>Created at</th>
-                  <th>Actions</th>
+                  <th style={{ verticalAlign: 'middle' }}>Title</th>
+                  <th style={{ verticalAlign: 'middle' }}>Status</th>
+                  <th style={{ verticalAlign: 'middle' }}>Reporter</th>
+                  <th style={{ verticalAlign: 'middle' }}>Department</th>
+                  <th style={{ verticalAlign: 'middle' }}>Assigned team</th>
+                  <th style={{ verticalAlign: 'middle' }}>Created at</th>
+                  <th style={{ verticalAlign: 'middle' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedTickets.map((ticket) => (
                   <tr key={ticket.id} className="table-row">
-                    <td>
+                    <td style={{ verticalAlign: 'middle' }}>
                       <strong>{ticket.title}</strong>
                     </td>
-                    <td>
+                    <td style={{ verticalAlign: 'middle' }}>
                       <span className={`status-pill status-${ticket.status.toLowerCase()}`}>
                         {formatStatusLabel(ticket.status)}
                       </span>
                     </td>
-                    <td>
+                    <td style={{ verticalAlign: 'middle' }}>
                       {ticket.reporterName || "-"}
                     </td>
-                    <td>
+                    <td style={{ verticalAlign: 'middle' }}>
                       {ticket.departmentName || "-"}
                     </td>
-                    <td>{ticket.assignedTeamName || "Unassigned"}</td>
-                    <td>{formatDate(ticket.createdAt)}</td>
-                    <td className="actions-cell">
-                      <button
-                        className="secondary-button"
-                        onClick={() => setDetailsTarget(ticket)}
-                      >
-                        Details
-                      </button>
-                      {canEdit ? (
+                    <td style={{ verticalAlign: 'middle' }}>{ticket.assignedTeamName || "Unassigned"}</td>
+                    <td style={{ verticalAlign: 'middle' }}>{formatDate(ticket.createdAt)}</td>
+                    <td className="actions-cell" style={{ verticalAlign: 'middle', display: 'table-cell' }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <button
                           className="secondary-button"
-                          onClick={() => setModalState({ open: true, ticket })}
+                          onClick={() => setDetailsTarget(ticket)}
                         >
-                          Edit
+                          Details
                         </button>
-                      ) : null}
-                      {canDelete ? (
-                        <button className="danger-button" onClick={() => setDeleteTarget(ticket)}>
-                          Delete
-                        </button>
-                      ) : null}
+                        {canEdit ? (
+                          <button
+                            className="secondary-button"
+                            onClick={() => setModalState({ open: true, ticket })}
+                          >
+                            Edit
+                          </button>
+                        ) : null}
+                        {canDelete ? (
+                          <button className="danger-button" onClick={() => setDeleteTarget(ticket)}>
+                            Delete
+                          </button>
+                        ) : null}
+                      </div>
                     </td>
                   </tr>
                 ))}
