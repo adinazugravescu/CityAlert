@@ -42,6 +42,20 @@ The platform helps citizens submit incident reports and allows municipal staff t
 - `backend` - Spring Boot API and business logic
 - `frontend` - React user interface
 
+## Running the project
+
+Prerequisites:
+- Docker and Docker Compose installed
+- JDK compatible with Spring Boot 3
+- Node.js and npm for the frontend
+
+- `backend`:
+  - `docker-compose up -d` (start PostgreSQL) and `docker-compose down` (stop PostgreSQL)
+  - `SPRING_PROFILES_ACTIVE=local ./gradlew bootRun` (start the Spring Boot API; running in the foreground)
+
+- `frontend`:
+  - `npm run dev`
+
 ## Outcome
 
 CityAlert provides a complete incident reporting workflow, from citizen submission to administrative processing and intervention follow-up.
